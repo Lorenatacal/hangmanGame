@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+​
+<head>
+  <meta charset="utf-8" />
+  <title>Mocha Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+</head>
+​
+​
+<body>
+  <!-- Mocha setup -->
+  <div id="mocha"></div>
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/mocha/mocha.js"></script>
+  ​
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+  </script>
+  ​
+  <!-- Main code -->
+  <script>
+    // write your code here
+    class Hangman {
+      constructor(wordChosen) {
+        this.solution = wordChosen
+        this.livesRemaining = 8
+        this.wordInProgress = Array(wordChosen.length).fill('_')
+        this.guessedLetters = []
+      }
+​
+      guess(letter) {
+        if (!this.solution.split('').includes(letter)) {
+          this.livesRemaining = this.livesRemaining - 1
+        }
+      }
+      
+    }
+​
+​
+​
+  </script>
+  ​
+  <!-- tests -->
+  <script>
+    const expect = chai.expect
+  </script>
+  <script>
+    // write your tests here
+    describe('Hangman game', () => {
+      describe('MVP', () => {
+        describe('basic game setup', () => {
+          describe("GIVEN a word selected with five letters, e.g. 'lunch'", () => {
+            let wordSelected
+            before(() => {
+              wordSelected = 'lunch'
+            })
+            describe('WHEN a hangman game is initialised using that word', () => {
+              let newGame
+              before(() => {
+                newGame = new Hangman(wordSelected)
+              })
+              it('THEN the newGame knows that its solution is the selected word', () => {
+                expect(newGame.solution).to.equal(wordSelected)
+              })
+​
+              it('AND the current remaining lives is equal to 8', () => {
+                expect(newGame.livesRemaining).to.equal(8)
+              })
+​
+              it('AND the word in progress is represented by an array with five empty strings', () => {
+                expect(newGame.wordInProgress).to.deep.equal(['_', '_', '_', '_', '_'])
+              })
+​
+              it('AND the guessed letters is empty', () => {
+                expect(newGame.guessedLetters).to.deep.equal([])
+              })
+​
+              describe("AND a player guesses the letter 'r'", () => {
+                before(() => {
+                  newGame.guess('r')
+                })
+​
+                it('THEN the current lives remaining should be equal to 7', () => {
+                  expect(newGame.livesRemaining).to.equal(7)
+                })
+              })
+            })
+          })
+        })
+      })
+​
+    })
+​
+​
+  </script>
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+​
+​
+</html>
